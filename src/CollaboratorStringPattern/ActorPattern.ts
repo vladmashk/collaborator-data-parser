@@ -16,7 +16,7 @@ export default class ActorPattern extends CollaboratorStringPattern {
         const collaboratorStrings = collaboratorStringLine
             .replace(/(met|stemmen)(: ?| o.a. | )/i, "")
             .replace(/( e.a.|, ?\.\.\.)/, "")
-            .split(/(?:, ?| en )/);
+            .split(/, ?| en /);
 
         const pattern = new RegExp(`(${ActorPattern.nameRegex})(?: [(\\[](${ActorPattern.nameRegex})[)\\]])?`, "gui");
 
