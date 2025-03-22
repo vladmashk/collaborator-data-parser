@@ -14,7 +14,7 @@ export default class ActorPattern extends CollaboratorStringPattern {
         }
 
         const collaboratorStrings = collaboratorStringLine
-            .replace(/(?:met|stemmen)(: ?| o.a. | )/i, "")
+            .replace(/(met|stemmen)(: ?| o.a. | )/i, "")
             .replace(/( e.a.|, ?\.\.\.)/, "")
             .split(/(?:, ?| en )/);
 

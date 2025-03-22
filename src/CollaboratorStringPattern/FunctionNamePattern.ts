@@ -35,7 +35,7 @@ export default class FunctionNamePattern extends CollaboratorStringPattern {
         for (const part of parts.slice(1)) {
             if (!currentFunctionCode) { // reading function
                 if (!this.functionMap.has(part.toLowerCase())) {
-                    return undefined;
+                    return undefined; // I don't continue here because another pattern may better match this line
                 }
                 currentFunctionCode = this.functionMap.get(part.toLowerCase());
             } else { // reading names
