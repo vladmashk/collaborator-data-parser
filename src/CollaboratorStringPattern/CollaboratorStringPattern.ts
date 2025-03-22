@@ -6,7 +6,7 @@ export default abstract class CollaboratorStringPattern {
      * Will match names with any number of words and some special characters. Won't match a single space character.
      * Matches names like Ke$ha, 6ix9ine, P!nk, will.i.am.
      */
-    nameRegex = "[\\w'\"\\-.$!*\\d]+(?: [\\w'\"\\-.$!*\\d]+)*";
+    static nameRegex = "[\\w'\"\\-.$!*\\d]+(?: [\\w'\"\\-.$!*\\d]+)*";
 
     /**
      * Tries to match the given line of a collaborator string.

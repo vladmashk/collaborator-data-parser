@@ -3,21 +3,22 @@ import {Collaborator} from "../Collaborator";
 
 /**
  * Matches patterns like "Met: Eugene Levy (Johnny Rose) en Catherine O'Hara (Moira Rose)"
+ * and "Stemmen: Jan Maillard (Bumba), Jan Van Looveren (Bumbalu), Britt Van Der Borght (Bumbina)"
  */
-export default class MetPattern extends CollaboratorStringPattern {
+export default class ActorPattern extends CollaboratorStringPattern {
 
     match(collaboratorStringLine: string): Collaborator[] | undefined {
         collaboratorStringLine = collaboratorStringLine.trim();
-        if (!collaboratorStringLine.toLowerCase().startsWith("met")) {
+        if (!/^(met|stemmen)/i.test(collaboratorStringLine)) {
             return undefined;
         }
 
         const collaboratorStrings = collaboratorStringLine
-            .replace(/met(: ?| o.a. | )/i, "")
+            .replace(/(?:met|stemmen)(: ?| o.a. | )/i, "")
             .replace(/( e.a.|, ?\.\.\.)/, "")
             .split(/(?:, ?| en )/);
 
-        const pattern = new RegExp(`(${this.nameRegex})(?: \\((${this.nameRegex})\\))?`, "gui");
+        const pattern = new RegExp(`(${ActorPattern.nameRegex})(?: [(\\[](${ActorPattern.nameRegex})[)\\]])?`, "gui");
 
         const collaborators: Collaborator[] = [];
         for (const collaboratorString of collaboratorStrings) {
@@ -25,7 +26,8 @@ export default class MetPattern extends CollaboratorStringPattern {
             if (!foundMatch) {
                 return undefined;
             }
-            collaborators.push(new Collaborator(foundMatch[1], foundMatch[2], "ACT"))
+            collaborators.push(new Collaborator(foundMatch[1], foundMatch[2], "ACT"));
+            pattern.lastIndex = 0;
         }
 
         return collaborators;
