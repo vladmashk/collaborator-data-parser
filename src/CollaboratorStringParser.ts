@@ -1,26 +1,25 @@
 import {Collaborator} from "./Collaborator";
 import {FunctionCode} from "./types";
 
-const cutIt = (text?: string): string[] => {
-    if (text && text != "") {
-        const cutters = [" en ", " of ", " door ", ";", ":", ",", " o.a. ", "\n"];
-        for (let i = 0; i < cutters.length; i++) {
-            const chunkSplit = cutters[i];
-            if (text.includes(chunkSplit)) {
-                const first = text.substring(0, text.indexOf(chunkSplit));
-                const second = text.substring(text.indexOf(chunkSplit) + chunkSplit.length);
-                const splitFirst = cutIt(first);
-                const splitSecond = cutIt(second);
-                return [...splitFirst, ...splitSecond];
-            }
+const cutIt = (text: string): string[] => {
+    const cutters = [" en ", " of ", " door ", ";", ":", ",", " o.a. ", "\n"];
+    for (let i = 0; i < cutters.length; i++) {
+        const chunkSplit = cutters[i];
+        if (text.includes(chunkSplit)) {
+            const first = text.substring(0, text.indexOf(chunkSplit));
+            const second = text.substring(text.indexOf(chunkSplit) + chunkSplit.length);
+            const splitFirst = cutIt(first);
+            const splitSecond = cutIt(second);
+            return [...splitFirst, ...splitSecond];
         }
-        return [text.trim()];
-    } else {
-        return [""];
     }
+    return [text.trim()];
 };
 
 export const parse = (text?: string) => {
+    if (!text || text === "") {
+        return [];
+    }
     const parts = cutIt(text);
     const collaborators: Collaborator[] = [];
     let fun: FunctionCode | undefined = undefined;
@@ -37,6 +36,7 @@ export const parse = (text?: string) => {
             part1 === "Stemmen" ||
             part1 === "Vertelstem" ||
             part1 === "Ingelezen") {
+
             let result: FunctionCode | undefined = "NAR";
             if (part1 === "Met") {
                 result = "ACT";
