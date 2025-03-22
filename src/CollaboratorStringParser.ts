@@ -1,4 +1,5 @@
 import {Collaborator} from "./Collaborator";
+import {FunctionCode} from "./types";
 
 const cutIt = (text?: string): string[] => {
     if (text && text != "") {
@@ -22,7 +23,7 @@ const cutIt = (text?: string): string[] => {
 export const parse = (text?: string) => {
     const parts = cutIt(text);
     const collaborators: Collaborator[] = [];
-    let fun: string | undefined = undefined;
+    let fun: FunctionCode | undefined = undefined;
     for (const part1 of parts) {
         if (part1 === "Met" ||
             part1 === "Regie" ||
@@ -36,7 +37,7 @@ export const parse = (text?: string) => {
             part1 === "Stemmen" ||
             part1 === "Vertelstem" ||
             part1 === "Ingelezen") {
-            let result: string | undefined = "NAR";
+            let result: FunctionCode | undefined = "NAR";
             if (part1 === "Met") {
                 result = "ACT";
             } else if (part1 === "Regie") {
@@ -63,7 +64,7 @@ export const parse = (text?: string) => {
                 }
             }
             fun = result;
-        } else if (fun !== undefined && fun !== "" && part1 !== undefined && part1 !== "") {
+        } else if (fun !== undefined && part1 !== undefined && part1 !== "") {
             const e = Collaborator.getInstance();
             if (part1.includes("(") && part1.includes(")")) {
                 const name1 = part1.substring(0, part1.indexOf("("));

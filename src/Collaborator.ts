@@ -1,12 +1,14 @@
+import {FunctionCode} from "./types";
+
 export class Collaborator {
 
     fullName: string;
 
-    character: string;
+    character?: string;
 
-    functionCode: string;
+    functionCode: FunctionCode;
 
-    constructor(fullName: string, character: string, functionCode: string) {
+    constructor(fullName: string, character: string | undefined, functionCode: FunctionCode) {
         this.fullName = fullName;
         this.character = character;
         this.functionCode = functionCode;
